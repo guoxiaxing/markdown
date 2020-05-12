@@ -1,20 +1,86 @@
 {
-  "name": "react-hooks",
+  "name": "markdown",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
+  "author": {
+    "name": "guoxiaxing"
+  },
+  "description": "markdown",
+  "homepage": "./",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "bootstrap": "^4.4.1",
+    "electron-store": "^5.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "buildMain": "webpack",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "onlyEle": "nodemon --watch main.js --watch src/menuTemplate.js --exec \"electron .\"",
+    "dev": "concurrently \"wait-on http://localhost:3000 && electron .\" \"cross-env BROWSER=none npm start\"",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "prepack": "npm run build && npm run buildMain",
+    "predist": "npm run build && npm run buildMain"
+  },
+  "build": {
+    "appId": "markdown-cloud",
+    "productName": "Markdown文档",
+    "copyright": "Copyright 2020 ${author}",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "settings/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "extends": null,
+    "extraMetadata": {
+      "main": "./build/main.js"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "background": "assets/appdmg.png",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "win": {
+      "target": [
+        "msi",
+        "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "${productName}-Web-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "perMachine": false
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +96,35 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-brands-svg-icons": "^5.13.0",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
+    "classnames": "^2.2.6",
+    "concurrently": "^5.2.0",
+    "cross-env": "^7.0.2",
+    "electron": "^8.2.5",
+    "electron-builder": "^22.6.0",
+    "electron-is-dev": "^1.2.0",
+    "i": "^0.3.6",
+    "jquery": "^1.9.1",
+    "node-sass": "^4.14.1",
+    "nodemon": "^2.0.3",
+    "npm": "^6.14.5",
+    "popper.js": "^1.16.1",
+    "qiniu": "^7.3.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1",
+    "react-simplemde-editor": "^4.1.0",
+    "uuid": "^8.0.0",
+    "wait-on": "^4.0.2",
+    "webpack-cli": "^3.3.11"
   }
 }
